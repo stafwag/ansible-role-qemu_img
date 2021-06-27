@@ -1,0 +1,57 @@
+---
+- name: debug
+  debug:
+    msg:
+      - "_qemu_image: {{ _qemu_image }}"
+
+- name: Name fail if no src and size are defined
+  fail:
+    msg:
+      - "qemu_img.size is required when qemu_img.src is not defined"
+  when:
+    - _qemu_image.src is not defined
+    - _qemu_image.size is not defined
+
+- name: copy and set resize command
+  block:
+    - name: copy src image
+      copy:
+        src: "{{ _qemu_image.src }}"
+        dest: "{{ _qemu_image.dest }}"
+        owner: "{{ _qemu_image.owner | default(0) }}"
+        group: "{{ _qemu_image.group | default(0) }}"
+        mode:  "{{ _qemu_image.mode | default('0500') }}"
+
+    - name: set _qemu_img_cmd to size the image
+      set_fact:
+        _qemu_img_cmd:
+          'qemu-img resize {{ _qemu_image.dest }} {{ _qemu_image.size }}' 
+      when:
+        - _qemu_image.size is defined
+  when:
+    - _qemu_image.src is defined
+
+- name: debug
+  debug:
+    msg:
+      - "_qemu_image: {{ _qemu_image }}"
+
+- name: set _qemu_img_cmd to create new image
+  set_fact:
+    _qemu_img_cmd:
+      'qemu-img create -f {{ _qemu_image.format | default("qcow2") }} {{ _qemu_image.dest }} {{ _qemu_image.size }}' 
+  when:
+    - _qemu_image.src is not defined
+
+- name: Run the _qemu_img_cmd command
+  command:
+    '{{ _qemu_img_cmd }}'
+  when:
+    - _qemu_img_cmd is defined
+
+- name: "Update file permissions"
+  file:
+    path: '{{ _qemu_image.dest }}'
+    owner: '{{ _qemu_image.owner | default(0) }}'
+    group: '{{ _qemu_image.group | default(0) }}'
+    mode:  '{{ _qemu_image.mode | default("0400") }}'

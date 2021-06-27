@@ -1,0 +1,46 @@
+---
+- name: debug
+  debug:
+    msg:
+      - "qemu_img: {{ qemu_img }}"
+
+- name: fail if qemu_img is not defined
+  fail:
+    msg: qemu_img is not defined
+  when:
+    - qemu_img is not defined
+
+- name: Copy to _qemu_images
+  set_fact:
+    _qemu_images:
+      "{{ qemu_img }}"
+  when:
+    - qemu_img | type_debug == "list"
+
+- name: convert to array
+  set_fact:
+    _qemu_images:
+      "[ {{ qemu_img }} ]"
+  when:
+    - qemu_img | type_debug != "list"
+
+- name: debug
+  debug:
+    msg:
+      - "_qemu_images: {{ _qemu_images }}"
+  when:
+    - _qemu_images | type_debug == "list"
+
+- name: Loop over the qemu images
+  debug:
+    msg:
+      - "_qemu_image: {{ _qemu_image }}"
+  loop: "{{ _qemu_images }}"
+  loop_control:
+    loop_var: _qemu_image
+    
+- name: Loop over the qemu images
+  include_tasks: qemu_image.yml
+  loop: "{{ _qemu_images }}"
+  loop_control:
+    loop_var: _qemu_image
