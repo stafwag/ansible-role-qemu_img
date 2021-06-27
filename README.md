@@ -1,6 +1,6 @@
 # Ansible Role: qemu_img
 
-An ansible role create qemu images. 
+An ansible role to create QEMU disk images.
 
 ## Requirements
 
@@ -12,14 +12,14 @@ qemu-img
 
 * **qemu_img**: "name space"
 
-The data can be in variables or an list (array). When a list is used, the role will
-loop over the list and create all defined qemu images.
+The data can be in variables or a list (array). When a list is used, the role
+will loop over the list and create all defined QEMU disk images.
 
-  * **dest**: required              The destination image
-  * **src**:  optional              The source image, a new image will be created if not defined. 
+  * **dest**: required  The destination image
+  * **src**:  optional  The source image, a new image will be created if not defined. 
   * **size**: optional, required if no src is defined. The size of the destination image.
-  * **owner**: uid default 0        The file owner of the destination image
-  * **group**: gid default 0        The file group of the destination image 
+  * **owner**: uid default 0  The file owner of the destination image
+  * **group**: gid default 0  The file group of the destination image 
   * **mode**:  mode default '0400'  The permissions of the destination image
   * **format**: format default: qcow2 The disk image format.
 
