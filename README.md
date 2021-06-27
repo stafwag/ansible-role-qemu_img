@@ -21,7 +21,7 @@ loop over the list and create all defined qemu images.
   * **owner**: uid default 0        The file owner of the destination image
   * **group**: gid default 0        The file group of the destination image 
   * **mode**:  mode default '0400'  The permissions of the destination image
-  * **format**: false / {{ proxy.no_proxy }} (default) / absent.
+  * **format**: format default: qcow2 The disk image format.
 
 ## Dependencies
 
