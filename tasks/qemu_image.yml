@@ -3,6 +3,9 @@
   debug:
     msg:
       - "_qemu_image: {{ _qemu_image }}"
+  tags:
+    - never
+    - debug
 
 - name: Name fail if no src and size are defined
   fail:
@@ -35,6 +38,9 @@
   debug:
     msg:
       - "_qemu_image: {{ _qemu_image }}"
+  tags:
+    - never
+    - debug
 
 - name: set _qemu_img_cmd to create new image
   set_fact:

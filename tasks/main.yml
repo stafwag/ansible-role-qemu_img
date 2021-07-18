@@ -1,8 +1,24 @@
 ---
-- name: debug
+- name: debug 
   debug:
     msg:
       - "qemu_img: {{ qemu_img }}"
+  tags:
+    - debug
+    - never
+
+- name: install OS related packages
+  include_tasks: '{{ install }}'
+  with_first_found:
+    - 'install/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml'
+    - 'install/{{ ansible_distribution }}.yml'
+    - 'install/{{ ansible_os_family }}.yml'
+    - 'install/{{ ansible_os_family | replace ("/","_") | replace(" ","_") }}.yml'
+    - install/defaults.yml
+  loop_control:
+    loop_var: install
+  tags:
+    - install
 
 - name: fail if qemu_img is not defined
   fail:
@@ -30,6 +46,9 @@
       - "_qemu_images: {{ _qemu_images }}"
   when:
     - _qemu_images | type_debug == "list"
+  tags:
+    - debug
+    - never
 
 - name: Loop over the qemu images
   debug:

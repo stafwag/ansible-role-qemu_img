@@ -1,0 +1,5 @@
+---
+- name: Install the qemu-tools package
+  package:
+    name: qemu-tools
+    state: present
