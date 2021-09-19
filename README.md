@@ -22,6 +22,7 @@ will loop over the list and create all defined QEMU disk images.
   * **group**: gid default 0  The file group of the destination image 
   * **mode**:  mode default '0400'  The permissions of the destination image
   * **format**: format default: qcow2 The disk image format.
+  * **overwrite**: boolean default: false Overwrite destination if already exists.
 
 ## Dependencies
 

@@ -7,6 +7,19 @@
     - never
     - debug
 
+- name: Verify if image already exists
+  stat:
+    path: "{{ _qemu_image.dest }}"
+  register:
+    _qemu_image_file
+
+- name: Fail if dest already exists
+  fail:
+    msg: "Sorry, {{ _qemu_image.dest }} already exists"
+  when:
+    - _qemu_image_file.stat.exists
+    - not _qemu_image.overwrite|default(false)
+
 - name: Name fail if no src and size are defined
   fail:
     msg:
