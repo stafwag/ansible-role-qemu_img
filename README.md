@@ -4,11 +4,39 @@ An ansible role to create QEMU disk images.
 
 ## Requirements
 
-qemu-img
+This role use the ```qemu-img``` commmand.
+This role will install ```qemu_img``` package for your GNU/Linux distribution.
+This roles is test on the following GNU/Linux distributions.
 
-## Role Variables
+* Archlinux
+* AlmaLinux
+* Debian
+* Centos
+* Fedora
+* RedHat
+* Rocky
+* Suse
+* Ubuntu
 
-### Playbook related variables
+## Role tasks, tags, variables and templates
+
+### Tasks
+
+* **install**
+
+    All installation-related tasks are defined in the ```install``` playbook. This allows you to install the
+    required packages and start/enable the required service with ```tasks_from``` in the ```include_role```,
+    ```import_role```, … ansible modules.
+
+    See example below.
+
+### Tags
+
+* **install**
+
+  Install the required packages.
+
+### Variables
 
 * **qemu_img**: "name space"
 
@@ -29,6 +57,25 @@ will loop over the list and create all defined QEMU disk images.
 None
 
 ## Example Playbooks
+
+### Install the required packages
+
+```
+---
+- name: Install libvirt & co
+  gather_facts: true 
+  hosts: all
+  become: true
+  tasks:
+    - name: Install the requirements
+      include_role:
+        name: "{{ item }}"
+        tasks_from:
+          install
+      with_items:
+        - stafwag.libvirt 
+        - stafwag.qemu_img
+```
 
 ### Create a new qemu image
  
