@@ -49,6 +49,7 @@ will loop over the list and create all defined QEMU disk images.
   * **owner**: uid default 0  The file owner of the destination image
   * **group**: gid default 0  The file group of the destination image 
   * **mode**:  mode default '0400'  The permissions of the destination image
+  * **remote_src**: boolean, default: false. When the source file is in remote host.
   * **format**: format default: qcow2 The disk image format.
   * **overwrite**: boolean default: false Overwrite destination if already exists.
 
