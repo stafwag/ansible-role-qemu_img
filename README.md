@@ -43,14 +43,15 @@ This roles is test on the following GNU/Linux distributions.
 The data can be in variables or a list (array). When a list is used, the role
 will loop over the list and create all defined QEMU disk images.
 
-  * **dest**: required  The destination image
-  * **src**:  optional  The source image, a new image will be created if not defined. 
-  * **size**: optional, required if no src is defined. The size of the destination image.
-  * **owner**: uid default 0  The file owner of the destination image
-  * **group**: gid default 0  The file group of the destination image 
-  * **mode**:  mode default '0400'  The permissions of the destination image
-  * **format**: format default: qcow2 The disk image format.
-  * **overwrite**: boolean default: false Overwrite destination if already exists.
+  * **dest**: required. The destination image.
+  * **src**: optional. The source image, a new image will be created if not defined.
+  * **size**: optional. required if no src is defined. The size of the destination image.
+  * **owner**: uid, default 0. The file owner of the destination image.
+  * **group**: gid, default 0. The file group of the destination image.
+  * **mode**: mode, default '0400'. The permissions of the destination image.
+  * **remote_src**: boolean, default: false. When the source file is in remote host.
+  * **format**: format, default: qcow2. The disk image format.
+  * **overwrite**: boolean, default: false. Overwrite destination if already exists.
 
 ## Dependencies
 
