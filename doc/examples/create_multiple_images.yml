@@ -1,0 +1,15 @@
+---
+- name: Create multiple disk images
+  gather_facts: no 
+  become: true
+  hosts: localhost
+  roles:
+    - role: stafwag.qemu_img
+      vars:
+        qemu_img:
+          - dest: /var/lib/libvirt/images/tstdebian.qcow2 
+            src: /home/staf/Downloads/debian-12-generic-amd64-daily.qcow2
+          - dest: /var/lib/libvirt/images/tstdebian_data001.qcow 
+            size: 20G
+          - dest: /var/lib/libvirt/images/tstdebian_data002.qcow 
+            size: 20G

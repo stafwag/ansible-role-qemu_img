@@ -1,5 +1,0 @@
----
-- name: Install the qemu package
-  pacman:
-    name: qemu
-    state: present

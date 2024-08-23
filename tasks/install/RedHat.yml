@@ -1,5 +1,0 @@
----
-- name: Install the qemu-img package
-  package:
-    name: qemu-img
-    state: present
