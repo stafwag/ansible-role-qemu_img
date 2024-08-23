@@ -1,37 +1,39 @@
 ---
-- name: debug
-  debug:
-    msg:
-      - "_qemu_image: {{ _qemu_image }}"
+- name: DEBUG show _qemu_image
+  ansible.builtin.debug:
+    var:
+      _qemu_image
   tags:
     - never
     - debug
 
 - name: Verify if image already exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ _qemu_image.dest }}"
   register:
     _qemu_image_file
 
 - name: Fail if dest already exists
-  fail:
+  ansible.builtin.fail:
     msg: "Sorry, {{ _qemu_image.dest }} already exists"
   when:
     - _qemu_image_file.stat.exists
     - not _qemu_image.overwrite|default(false)
 
 - name: Name fail if no src and size are defined
-  fail:
+  ansible.builtin.fail:
     msg:
       - "qemu_img.size is required when qemu_img.src is not defined"
   when:
     - _qemu_image.src is not defined
     - _qemu_image.size is not defined
 
-- name: copy and set resize command
+- name: Copy and set resize command
+  when:
+    - _qemu_image.src is defined
   block:
-    - name: copy src image
-      copy:
+    - name: Copy src image
+      ansible.builtin.copy:
         src: "{{ _qemu_image.src }}"
         dest: "{{ _qemu_image.dest }}"
         owner: "{{ _qemu_image.owner | default(0) }}"
@@ -39,39 +41,42 @@
         mode:  "{{ _qemu_image.mode | default('0500') }}"
         remote_src:  "{{ _qemu_image.remote_src | default('false') }}"
 
-    - name: set _qemu_img_cmd to size the image
-      set_fact:
+    - name: Set _qemu_img_cmd to size the image
+      ansible.builtin.set_fact:
         _qemu_img_cmd:
-          'qemu-img resize {{ _qemu_image.dest }} {{ _qemu_image.size }}' 
+          "qemu-img resize {{ _qemu_image.dest }} {{ _qemu_image.size }}"
       when:
         - _qemu_image.size is defined
-  when:
-    - _qemu_image.src is defined
 
-- name: debug
-  debug:
-    msg:
-      - "_qemu_image: {{ _qemu_image }}"
+- name: DEBUG show _qemu_image
+  ansible.builtin.debug:
+    var:
+      _qemu_image
   tags:
     - never
     - debug
 
-- name: set _qemu_img_cmd to create new image
-  set_fact:
+- name: Set _qemu_img_cmd to create new image
+  ansible.builtin.set_fact:
     _qemu_img_cmd:
-      'qemu-img create -f {{ _qemu_image.format | default("qcow2") }} {{ _qemu_image.dest }} {{ _qemu_image.size }}' 
+      "qemu-img create -f {{ _qemu_image.format | default('qcow2') }} {{ _qemu_image.dest }} {{ _qemu_image.size }}"
   when:
     - _qemu_image.src is not defined
 
 - name: Run the _qemu_img_cmd command
-  command:
-    '{{ _qemu_img_cmd }}'
+  ansible.builtin.command:
+    "{{ _qemu_img_cmd }}"
+  register: _qemu_img_cmd_status
+  changed_when:
+    _qemu_img_cmd_status.rc == 0
+  failed_when:
+    _qemu_img_cmd_status.rc != 0
   when:
     - _qemu_img_cmd is defined
 
-- name: "Update file permissions"
-  file:
-    path: '{{ _qemu_image.dest }}'
-    owner: '{{ _qemu_image.owner | default(0) }}'
-    group: '{{ _qemu_image.group | default(0) }}'
-    mode:  '{{ _qemu_image.mode | default("0400") }}'
+- name: Update file permissions
+  ansible.builtin.file:
+    path: "{{ _qemu_image.dest }}"
+    owner: "{{ _qemu_image.owner | default(0) }}"
+    group: "{{ _qemu_image.group | default(0) }}"
+    mode: "{{ _qemu_image.mode | default('0400') }}"

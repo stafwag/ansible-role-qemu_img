@@ -1,18 +1,16 @@
 ---
-- name: install OS related packages
-  include_tasks: '{{ install }}'
+- name: Set OS related variables
+  ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
-    - 'install/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml'
-    - 'install/{{ ansible_distribution }}.yml'
-    - 'install/{{ ansible_os_family }}-{{ ansible_pkg_mgr }}.yml'
-    - 'install/{{ ansible_os_family }}.yml'
-    - 'install/{{ ansible_os_family | replace ("/","_") | replace(" ","_") }}.yml'
-    - install/defaults.yml
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+    - "defaults.yml"
+
+- name: Install packages
+  ansible.builtin.package:
+    name: "{{ pkg }}"
+    state: present
+  with_items: "{{ _packages_to_install | default([]) }}"
   loop_control:
-    loop_var: install
-  tags:
-    - install
-  when:
-    - ansible_distribution is defined
-    - ansible_os_family is defined
-    - ansible_distribution_major_version is defined
+    loop_var: pkg

@@ -1,5 +1,0 @@
----
-- name: Install the qemu-utils package
-  apt:
-    name: qemu-utils
-    state: present
