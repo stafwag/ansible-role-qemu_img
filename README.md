@@ -139,4 +139,4 @@ MIT/BSD
 
 ## Author Information
 
-Created by Staf Wagemakers, email: staf@wagemakers.be, website: https://www.wagemakers.be, my company website: https://mask27.dev
+Created by Staf Wagemakers, email: staf@wagemakers.be, website: https://www.wagemakers.be, my company: https://mask27.dev
