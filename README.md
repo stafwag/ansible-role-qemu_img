@@ -43,7 +43,7 @@ Clone the role source code.
 $ git clone https://github.com/stafwag/ansible-role-qemu_img stafwag.qemu_img
 ```
 
-and put into the [role search path](https://docs.ansible.com/ansible/2.4/playbooks_reuse_roles.html#role-search-path)
+and put it into the [role search path](https://docs.ansible.com/ansible/2.4/playbooks_reuse_roles.html#role-search-path)
 
 ## Role tasks, tags, variables and templates
 
