@@ -21,9 +21,9 @@ This roles is tested on the following GNU/Linux distributions.
 * Suse
 * Ubuntu
 
-### Installation
+## Installation
 
-#### Ansible galaxy
+### Ansible galaxy
 
 The role is available on [Ansible Galaxy](https://galaxy.ansible.com/ui/standalone/roles/stafwag/qemu_img/).
 
@@ -33,7 +33,7 @@ To install the role from Ansible Galaxy execute the command below.
 $ ansible-galaxy role install stafwag.qemu_img
 ```
 
-#### Source Code
+### Source Code
 
 If you want to use the source code directly.
 
