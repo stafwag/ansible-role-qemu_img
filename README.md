@@ -5,8 +5,11 @@ An ansible role to create QEMU disk images.
 ## Requirements
 
 This role use the ```qemu-img``` commmand.
+
+### Supported GNU/Linux Distributions
+
 This role will install ```qemu_img``` package for your GNU/Linux distribution.
-This roles is test on the following GNU/Linux distributions.
+This roles is tested on the following GNU/Linux distributions.
 
 * Archlinux
 * AlmaLinux
