@@ -5,8 +5,11 @@ An ansible role to create QEMU disk images.
 ## Requirements
 
 This role use the ```qemu-img``` commmand.
+
+### Supported GNU/Linux Distributions
+
 This role will install ```qemu_img``` package for your GNU/Linux distribution.
-This roles is test on the following GNU/Linux distributions.
+This roles is tested on the following GNU/Linux distributions.
 
 * Archlinux
 * AlmaLinux
@@ -17,6 +20,30 @@ This roles is test on the following GNU/Linux distributions.
 * Rocky
 * Suse
 * Ubuntu
+
+## Installation
+
+### Ansible galaxy
+
+The role is available on [Ansible Galaxy](https://galaxy.ansible.com/ui/standalone/roles/stafwag/qemu_img/).
+
+To install the role from Ansible Galaxy execute the command below.
+
+```bash
+$ ansible-galaxy role install stafwag.qemu_img
+```
+
+### Source Code
+
+If you want to use the source code directly.
+
+Clone the role source code.
+
+```bash
+$ git clone https://github.com/stafwag/ansible-role-qemu_img stafwag.qemu_img
+```
+
+and put it into the [role search path](https://docs.ansible.com/ansible/2.4/playbooks_reuse_roles.html#role-search-path)
 
 ## Role tasks, tags, variables and templates
 
@@ -65,17 +92,19 @@ None
 ---
 - name: Install libvirt & co
   gather_facts: true 
-  hosts: all
+  hosts: localhost
   become: true
   tasks:
     - name: Install the requirements
       include_role:
-        name: "{{ item }}"
+        name: "{{ _role }}"
         tasks_from:
           install
       with_items:
         - stafwag.libvirt 
         - stafwag.qemu_img
+      loop_control:
+        loop_var: _role
 ```
 
 ### Create a new qemu image
