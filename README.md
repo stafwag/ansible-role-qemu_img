@@ -65,17 +65,19 @@ None
 ---
 - name: Install libvirt & co
   gather_facts: true 
-  hosts: all
+  hosts: localhost
   become: true
   tasks:
     - name: Install the requirements
       include_role:
-        name: "{{ item }}"
+        name: "{{ _role }}"
         tasks_from:
           install
       with_items:
         - stafwag.libvirt 
         - stafwag.qemu_img
+      loop_control:
+        loop_var: _role
 ```
 
 ### Create a new qemu image
