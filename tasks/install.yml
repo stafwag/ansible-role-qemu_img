@@ -1,16 +1,18 @@
 ---
 - name: Set OS related variables
-  ansible.builtin.include_vars: "{{ item }}"
+  ansible.builtin.include_vars: "{{ _os_vars }}"
   with_first_found:
     - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
     - "{{ ansible_distribution }}.yml"
     - "{{ ansible_os_family }}.yml"
     - "defaults.yml"
+  loop_control:
+    loop_var: _os_vars
 
 - name: Install packages
   ansible.builtin.package:
-    name: "{{ pkg }}"
+    name: "{{ _pkg }}"
     state: present
   with_items: "{{ _packages_to_install | default([]) }}"
   loop_control:
-    loop_var: pkg
+    loop_var: _pkg
