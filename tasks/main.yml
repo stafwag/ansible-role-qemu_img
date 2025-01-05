@@ -10,6 +10,11 @@
 - name: Install qemu img
   ansible.builtin.include_tasks:
     install.yml
+#
+# Set run_once to allow the role to be executed in parallel
+# e.g. when delegate_to in used.
+#
+  run_once: true
   args:
     apply:
       tags:

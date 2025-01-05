@@ -38,8 +38,8 @@
         dest: "{{ _qemu_image.dest }}"
         owner: "{{ _qemu_image.owner | default(0) }}"
         group: "{{ _qemu_image.group | default(0) }}"
-        mode:  "{{ _qemu_image.mode | default('0500') }}"
-        remote_src:  "{{ _qemu_image.remote_src | default('false') }}"
+        mode: "{{ _qemu_image.mode | default('0500') }}"
+        remote_src: "{{ _qemu_image.remote_src | default('false') }}"
 
     - name: Set _qemu_img_cmd to size the image
       ansible.builtin.set_fact:
