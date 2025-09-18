@@ -34,7 +34,7 @@
     - qemu_img | type_debug == "list"
 
 - name: DEBUG show qemu_img
-  debug:
+  ansible.builtin.debug:
     var:
       qemu_img
   tags:
@@ -49,7 +49,7 @@
     - qemu_img | type_debug != "list"
 
 - name: DEBUG show _qemu_images
-  debug:
+  ansible.builtin.debug:
     var:
       _qemu_images
   tags:
