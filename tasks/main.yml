@@ -33,10 +33,18 @@
   when:
     - qemu_img | type_debug == "list"
 
+- name: DEBUG show qemu_img
+  ansible.builtin.debug:
+    var:
+      qemu_img
+  tags:
+    - never
+    - debug
+
 - name: Convert to array
   ansible.builtin.set_fact:
     _qemu_images:
-      "[ {{ qemu_img }} ]"
+      - "{{ qemu_img }}"
   when:
     - qemu_img | type_debug != "list"
 
@@ -44,8 +52,22 @@
   ansible.builtin.debug:
     var:
       _qemu_images
+  tags:
+    - never
+    - debug
+
+- name: Fail if _qemu_images is not a list
+  ansible.builtin.fail:
+    msg: "ERROR: Sorry something went wrong {{ _qemu_images }} is not a list\n type = {{ _qemu_images | type_debug }}"
   when:
-    - _qemu_images | type_debug == "list"
+    - _qemu_images | type_debug != "list"
+
+- name: DEBUG show _qemu_images
+  ansible.builtin.debug:
+    var:
+      _qemu_images
+  when:
+    - _qemu_images is defined
   tags:
     - debug
     - never

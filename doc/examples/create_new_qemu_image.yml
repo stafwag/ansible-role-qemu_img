@@ -1,12 +1,12 @@
 ---
 - name: Create a new disk image
-  gather_facts: no 
+  gather_facts: false
   become: true
   hosts: localhost
   roles:
     - role: stafwag.qemu_img
       vars:
         qemu_img:
-          dest: datadisk.qcow2 
-          size: 20G 
+          dest: datadisk.qcow2
+          size: 20G
           format: qcow2
