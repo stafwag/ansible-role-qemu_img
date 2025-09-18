@@ -1,13 +1,13 @@
 ---
 - name: Copy a disk image and resize it
-  gather_facts: no 
+  gather_facts: true
   become: true
   hosts: localhost
   roles:
     - role: stafwag.qemu_img
       vars:
         qemu_img:
-          dest: /var/lib/libvirt/images/tstdebian.qcow2 
+          dest: /var/lib/libvirt/images/tstdebian.qcow2
           format: qcow2
           size: 50G
           src: /home/staf/Downloads/debian-12-generic-amd64-daily.qcow2
